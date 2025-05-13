@@ -1,0 +1,30 @@
+interface FastEthernet0/0
+ ip address 172.16.0.1 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly
+ duplex auto
+ speed auto
+ no shutdown
+!
+interface FastEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface FastEthernet1/0
+ ip address dhcp
+ ip nat outside
+ ip virtual-reassembly
+ duplex auto
+ speed auto
+ no shutdown
+!        
+ip forward-protocol nd
+ip route 0.0.0.0 0.0.0.0 172.31.0.1
+!
+!
+ip nat inside source list 7 interface FastEthernet1/0 overload
+!
+access-list 7 permit 172.16.0.0 0.0.0.255
+
